@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.env/
+venv*/
+ve*/
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Local data files
+data/
+# *.csv
+# *.parquet
+
+# Credentials
+*.env
+secrets.json
+
+# Great Expectations
+gx_x1/gx/uncommitted
