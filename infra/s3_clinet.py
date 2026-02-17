@@ -9,7 +9,7 @@ Main use (simple):
 """
 
 import boto3
-from nyc_taxi.ingestion.config.settings import S3Config
+from config.settings import S3Config
 
 
 class S3Client:

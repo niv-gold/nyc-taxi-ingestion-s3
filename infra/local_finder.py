@@ -11,10 +11,10 @@ used for demonstration and simple unit tests.
 
 from __future__ import annotations
 from pathlib import Path
-from nyc_taxi.ingestion.config.settings import MyLocalData
-from nyc_taxi.ingestion.core.ports import FileIdentity, FileFinder
+from config.settings import MyLocalData
+from core.ports import FileIdentity, FileFinder
 from datetime import datetime
-from typing import Iterable, Tuple
+from typing import Tuple
 
 
 class LocalFileFinder(FileFinder):

@@ -2,7 +2,7 @@
 # Coordinates file discovery, upload, logging, and archival operations
 
 from __future__ import annotations
-from nyc_taxi.ingestion.core.ports import FileFinder, Uploader, Archiver, LoadLogRepository
+from core.ports import FileFinder, Uploader, Archiver, LoadLogRepository
 import uuid
 
 class IngestionPipeline:

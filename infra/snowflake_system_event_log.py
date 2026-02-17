@@ -17,9 +17,9 @@ handling.
 
 from __future__ import annotations
 from snowflake import connector
-from nyc_taxi.ingestion.core.ports import LoadLogRepository
-from nyc_taxi.ingestion.config.settings import SnowflakeConfig
-from nyc_taxi.ingestion.infra.local_finder import LocalFileFinder
+from core.ports import LoadLogRepository
+from config.settings import SnowflakeConfig
+from infra.local_finder import LocalFileFinder
 import uuid
 from pathlib import Path
 import json

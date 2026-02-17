@@ -9,9 +9,9 @@ Behavior:
 - Handles common errors and prints concise diagnostic messages
 """
 
-from nyc_taxi.ingestion.core.ports import Archiver, FileIdentity
+from core.ports import Archiver, FileIdentity
 from pathlib import Path
-from nyc_taxi.ingestion.config.settings import MyLocalData
+from config.settings import MyLocalData
 import shutil
 from datetime import datetime
 

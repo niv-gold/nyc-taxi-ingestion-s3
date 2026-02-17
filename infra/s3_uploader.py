@@ -1,12 +1,11 @@
 from __future__ import annotations
-from nyc_taxi.ingestion.config.settings import S3Config
-from nyc_taxi.ingestion.core.ports import Uploader, FileIdentity
-from nyc_taxi.ingestion.infra.s3_clinet import S3Client
+from config.settings import S3Config
+from core.ports import Uploader, FileIdentity
+from infra.s3_clinet import S3Client
 from pathlib import Path
 from datetime import datetime
-from nyc_taxi.ingestion.config.settings import MyLocalData
+from config.settings import MyLocalData
 from dotenv import load_dotenv
-import os
 
 class S3Uploader(Uploader):
     """Upload files to Amazon S3.
@@ -49,14 +48,14 @@ class S3Uploader(Uploader):
             return f'{self.base_prefix}/{file.name}'
         return file.name
 
-    def upload(self, file: FileIdentity) -> None:
+    def upload(self, file: FileIdentity) -> str:
         """Upload a local file to S3.
 
         Args:
             file (FileIdentity): File metadata with `path` pointing to local file.
 
         Returns:
-            None
+            str: S3 URI of the uploaded file.
 
         Side effects:
             - Uploads the file to S3 using `upload_file`
@@ -69,7 +68,8 @@ class S3Uploader(Uploader):
             Bucket=self.bucket,
             Key=s3_key,
         )
-        print(f"s3://{self.bucket}/{s3_key}")
+        s3_uri = f"s3://{self.bucket}/{s3_key}"
+        return s3_uri
 
 
 
