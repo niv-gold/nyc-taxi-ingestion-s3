@@ -44,8 +44,8 @@ class LocalFileFinder(FileFinder):
 
         # If no source provided, use configured local data path
         if not self.src_dir:
-            # Note: settings currently expose `loacl_path` (typo kept for compatibility)
-            self.src_dir = MyLocalData.loacl_path
+            # Note: settings currently expose `local_path` (corrected typo)
+            self.src_dir = MyLocalData.local_path
 
     def list_files(self) -> list[FileIdentity]:
         """List discovered files as `FileIdentity` objects.
