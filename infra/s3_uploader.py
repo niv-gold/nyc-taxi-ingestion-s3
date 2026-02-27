@@ -32,21 +32,6 @@ class S3Uploader(Uploader):
         else:
             self.bucket = self.config.bucket_name
 
-    def build_s3_key(self, file: FileIdentity) -> str:
-        """Build the full S3 object key for `file`.
-
-        Args:
-            file (FileIdentity): File metadata object.
-
-        Returns:
-            str: Object key to use in S3 (prefix + file name).
-
-        Main use (simple):
-            - Ensures files are written under `base_prefix` when provided.
-        """
-        if self.base_prefix:
-            return f'{self.base_prefix}/{file.name}'
-        return file.name
 
     def upload(self, file: FileIdentity) -> str:
         """Upload a local file to S3.
@@ -61,18 +46,42 @@ class S3Uploader(Uploader):
             - Uploads the file to S3 using `upload_file`
             - Prints the S3 URI on success
         """
-        s3_key = self.build_s3_key(file)
-        # Use the boto3 client to perform the upload
-        self.s3_client.upload_file(
-            Filename=str(file.path),
-            Bucket=self.bucket,
-            Key=s3_key,
-        )
-        s3_uri = f"s3://{self.bucket}/{s3_key}"
-        return s3_uri
+        try:
+            s3_key = self.build_s3_key(file)
+            # Use the boto3 client to perform the upload
+            self.s3_client.upload_file(
+                Filename=str(file.path),
+                Bucket=self.bucket,
+                Key=s3_key,
+            )
+            s3_uri = f"s3://{self.bucket}/{s3_key}"
+            return s3_uri
+        except Exception as e:
+            raise RuntimeError(f"Failed to upload {file.path} to S3: {e}")
 
 
+    def build_s3_key(self, file: FileIdentity) -> str:
+        """Build the full S3 object key for `file`.
 
+        Args:
+            file (FileIdentity): File metadata object.
+
+        Returns:
+            str: Object key to use in S3 (prefix + file name).
+
+        Main use (simple):
+            - Ensures files are written under `base_prefix` when provided.
+        """
+        try:
+            suffix_folder = Path(file.name).suffix.lstrip('.').lower() or 'other'
+            if self.base_prefix and suffix_folder:
+                return f'{self.base_prefix}/{suffix_folder}/{file.name}'
+            elif self.base_prefix:
+                return f'{self.base_prefix}/{file.name}'
+            else:
+                return file.name
+        except Exception as e:
+            raise ValueError(f"Error building S3 key for file {file.path}: {e}")
 
 ##-------------------------------------------------------------------------
 ## QA - unit test
